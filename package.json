@@ -1,0 +1,29 @@
+{
+  "name": "weather-dashboard",
+  "type": "module",
+  "scripts": {
+    "dev": "vinxi dev",
+    "build": "vinxi build",
+    "start": "vinxi start"
+  },
+  "dependencies": {
+    "@decs/typeschema": "^0.12.1",
+    "@solidjs/meta": "^0.29.2",
+    "@solidjs/router": "^0.11.2",
+    "@solidjs/start": "^0.5.0",
+    "@trpc/client": "^10.44.1",
+    "@trpc/server": "^10.44.1",
+    "axios": "^1.6.7",
+    "solid-js": "^1.8.12",
+    "valibot": "^0.23.0",
+    "vinxi": "^0.2.1"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.33",
+    "tailwindcss": "^3.4.1"
+  }
+}
