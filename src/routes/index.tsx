@@ -7,8 +7,6 @@ export default function Home() {
   // const hello = createAsync(() => api.example.hello.query("world"));
   return (
     <main>
-      <h1>Hello world!</h1>
-      <Counter />
       <p>
         Visit{" "}
         <a href="https://start.solidjs.com" target="_blank">

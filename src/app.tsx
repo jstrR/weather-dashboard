@@ -1,5 +1,5 @@
 // @refresh reload
-import { MetaProvider, Title } from "@solidjs/meta";
+import { Link, MetaProvider, Title } from "@solidjs/meta";
 import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start";
 import { Suspense } from "solid-js";
@@ -11,7 +11,7 @@ export default function App() {
       root={(props) => (
         <MetaProvider>
           <Title>Weather dashboard</Title>
-          <a href="/">Index</a>
+          <Link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" />
           <Suspense>{props.children}</Suspense>
         </MetaProvider>
       )}
