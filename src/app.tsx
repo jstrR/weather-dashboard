@@ -11,7 +11,10 @@ export default function App() {
       root={(props) => (
         <MetaProvider>
           <Title>Weather dashboard</Title>
-          <Link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" />
+          <Link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+          />
           <Suspense>{props.children}</Suspense>
         </MetaProvider>
       )}

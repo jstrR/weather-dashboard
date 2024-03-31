@@ -10,7 +10,7 @@ export default createHandler(() => (
           <link rel="icon" href="/favicon.ico" />
           {assets}
         </head>
-        <body class="h-dvh bg-primary">
+        <body class="h-dvh bg-primary px-8 py-6">
           <div id="app">{children}</div>
           {scripts}
         </body>
