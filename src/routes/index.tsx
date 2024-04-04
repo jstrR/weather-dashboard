@@ -1,11 +1,13 @@
+import { Match, Suspense, Switch } from "solid-js";
 import { Icon } from "solid-heroicons";
 import { mapPin } from "solid-heroicons/solid";
 
-import { locationName } from "~/lib/store";
-
 import { SearchLocation } from "~/molecules/SearchLocation";
 import { CardDefault } from "~/molecules/CardDefault";
-import { CardProgressBar } from "~/molecules/CardProgressBar";
+
+import { UVBar } from "~/atoms/UVBar";
+
+import { locationName, weatherData } from "~/lib/store";
 
 export default function Home() {
   return (
@@ -20,8 +22,21 @@ export default function Home() {
         </div>
       </header>
       <main class="pt-4">
-        <CardDefault title="test" description="test2" />
-        <CardProgressBar title="test" description="test2" value={6} />
+        <Suspense fallback={<p>Loading...</p>}>
+          <Switch>
+            <Match when={weatherData.error}>
+              <CardDefault
+                title="Error"
+                description={weatherData.error?.message}
+              />
+            </Match>
+            <Match when={!!weatherData()}>
+              <CardDefault title="UV Index">
+                <UVBar value={Math.floor(weatherData()!.current.uvi || 0)} />
+              </CardDefault>
+            </Match>
+          </Switch>
+        </Suspense>
       </main>
     </>
   );

@@ -4,6 +4,7 @@ import { number, object, optional, string } from "valibot";
 
 import { createTRPCRouter, publicProcedure } from "../utils";
 import type { GeocoderCity, Weather } from './types';
+import { TRPCError } from "@trpc/server";
 
 const weatherAPI = axios.create({
   baseURL: process.env.WEATHER_API_URL,
@@ -30,32 +31,41 @@ export const weatherRouter = createTRPCRouter({
       try {
         const { city, limit } = input;
         if (!city) {
-          return 'City is required';
+          throw new TRPCError({
+            code: 'BAD_REQUEST',
+            message: 'City is required.',
+          });
         }
         const resp = await getCityLatLon(city, limit);
         return resp;
       } catch (error: any) {
         console.error(error);
-        return `Error: ${error?.message}`;
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'An unexpected error occurred, please try again later.',
+          cause: error,
+        });
       }
     }),
   getWeather: publicProcedure.input(wrap(object({
     city: string(), exclude: optional(string()), limit: optional(number())
   }))).query(async ({ input }) => {
-    try {
-      const { city, exclude, limit } = input;
-      if (!city) {
-        return 'City is required';
-      }
-      const cityCoords = await getCityLatLon(city, limit);
-      if (typeof cityCoords === 'string') {
-        return cityCoords;
-      }
-      const { data } = await weatherAPI.get<Weather>(`/onecall?lat=${cityCoords.lat}&lon=${cityCoords.lon}&appid=${process.env.WEATHER_API_KEY}`);
-      return data;
-    } catch (error: any) {
-      console.error(error);
-      return `Error: ${error?.message}`;
+    const { city, exclude, limit } = input;
+    if (!city) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: 'City is required.',
+      });
     }
+    const cityCoords = await getCityLatLon(city, limit);
+    // If cityCoords is a string, it means it's an error message
+    if (typeof cityCoords === 'string') {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: cityCoords,
+      });
+    }
+    const { data } = await weatherAPI.get<Weather>(`/onecall?lat=${cityCoords.lat}&lon=${cityCoords.lon}&appid=${process.env.WEATHER_API_KEY}`);
+    return data;
   }),
 });

@@ -1,7 +1,7 @@
-import { Show, children } from "solid-js";
+import { type JSXElement, Show, children } from "solid-js";
 
 type CardDefaultProps = {
-  children?: Element;
+  children?: JSXElement;
   title?: string;
   description?: string;
 };

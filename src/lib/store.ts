@@ -13,12 +13,13 @@ export const getWeatherData = async (city: string) => {
 
     return data;
   } catch (error: any) {
-    console.error(error);
-    return error;
+    console.dir(error);
+    const message = error?.message || error?.data?.code || 'Internal server error';
+    throw new Error(message);
   }
 };
 
-export const [cityCoordsSearch] = createResource(location, getWeatherData);
+export const [weatherData] = createResource(location, getWeatherData);
 
 export const searchLocation = useDebounce(
   async (newLocation: string) => {
